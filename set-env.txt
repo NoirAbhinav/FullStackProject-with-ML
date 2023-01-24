@@ -1,0 +1,3 @@
+set -a
+. config.env
+set +a
