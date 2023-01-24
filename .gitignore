@@ -119,7 +119,6 @@ celerybeat.pid
 
 # SageMath parsed files
 *.sage.py
-
 # Environments
 .env
 .venv
@@ -153,3 +152,4 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 config.env
+models/
