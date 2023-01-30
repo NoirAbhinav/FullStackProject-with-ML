@@ -1,6 +1,0 @@
-set -a
-source venv/bin/activate
-. config.env
-cd fast-api/
-python3 main.py
-set +a
