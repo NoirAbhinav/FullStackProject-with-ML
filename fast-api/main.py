@@ -1,25 +1,52 @@
-import sys
 import os
 from fastapi import FastAPI, WebSocket
-import random
 import uvicorn
 import cv2
 import base64
 import time
 import numpy as np
-import asyncio
-# from MLOPS import pipeline as pipes
+from pydantic import BaseModel
+from MLOPS import emotion_pipeline as emotion_pipes
 from keras.models import load_model
+from fastapi.middleware.cors import CORSMiddleware
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+origins = ["*"]
 
 model = load_model(
-    '/home/abhinav/Personal_project/FullStackProject-with-ML/MLOPS/emotion_detect/models/model_v1.h5')
+    '../MLOPS/emotion_detect/models/model_v1.h5')
 
 app = FastAPI(title='WebSocket Example')
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+class EDA_get(BaseModel):
+    ml_module: str
+
+
+@app.post("/model/EDA")
+async def get_EDA(data: EDA_get):
+    print("EDA called")
+    if (data.ml_module == 'emotions'):
+       return emotion_pipes.get_EDA()
 
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
+    """
+    The websocket_endpoint function is a callback function that accepts a WebSocket object as its argument.
+    It then opens the webcam, captures frames from it and sends them to the client via websockets.
+    The server also receives messages from the client and closes the connection if 'closed' is received.
+    
+    :param websocket: WebSocket: Access the websocket object
+    :return: The frame captured by the webcam
+    :doc-author: Trelent
+    """
     print('Accepting client connection...')
     await websocket.accept()
     cap = cv2.VideoCapture(cv2.CAP_V4L2)

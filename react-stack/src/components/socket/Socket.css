@@ -9,7 +9,7 @@
   align-self: center;
 }
 
-img {
+.socket > img {
   border-radius: 16px;
   -webkit-box-shadow: -22px 18px 49px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: -22px 18px 49px 0px rgba(0, 0, 0, 0.75);

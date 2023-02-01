@@ -1,7 +1,7 @@
-import { Box } from "@mui/system";
+
 import React from "react";
 import "./Socket.css";
-function Socket_send({ socket }) {
+function Socket_send({ socket, children }) {
   const [image, setImage] = React.useState(null);
   socket.current.onmessage = (event) => {
     socket.current.send("Received");
@@ -10,6 +10,7 @@ function Socket_send({ socket }) {
   return (
     <div className="socket">
       <img src={`data:image/png;base64,${image}`} />
+      {children}
     </div>
   );
 }
@@ -35,7 +36,8 @@ function Socket() {
   }, []);
   return (
     <>
-      <Socket_send socket={socket} />
+      <Socket_send socket={socket}>
+      </Socket_send>
     </>
   );
 }
