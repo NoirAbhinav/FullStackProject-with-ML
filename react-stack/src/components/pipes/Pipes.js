@@ -1,36 +1,35 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Button, Toolbar } from "@mui/material";
-import axios from "axios";
-import Socket from "../socket/Socket";
 import "./Pipes.css";
-function ApiOnClick({ data, setData, endpoint }) {
-  React.useEffect(() => {
-    axios
-      .post("http://localhost:8000/" + endpoint, {
-        ml_module: "emotions",
-      })
-      .then(function (response) {
-        console.log(response.data[0]);
-        setData(response.data[0]);
-      });
-  }, []);
+import EDA_pipes from "./EDA_pipes/edaPipes";
+import ApiOnClick from "./apiCalls";
 
-  return (
-    <div className="edaImg">
-      <img width="100" src={`data:image/png;base64,${data}`} />
-    </div>
-  );
-}
+import { FingerPrintContext } from "./fingerContext";
+import Flow from "./ModelInfo/nodes";
+import VideoTest from "../socket/vidstream";
 function Pipes() {
+  const fingerContext = useContext(FingerPrintContext);
+
+  const fpPromise = import("https://openfpcdn.io/fingerprintjs/v3").then(
+    (FingerprintJS) => FingerprintJS.load()
+  );
+  fpPromise
+    .then((fp) => fp.get())
+    .then((result) => {
+      // This is the visitor identifier:
+      const visitorId = result.visitorId;
+      console.log(visitorId);
+      fingerContext.setFingerprint(visitorId);
+    });
+  window.addEventListener("beforeunload", (ev) => {
+    const rt = ApiOnClick("model/close", fingerContext.getFingerprint());
+    return rt;
+  });
   const [show, setShow] = React.useState({
     eda: false,
+    modelInfo: false,
     socket: false,
-    getData: false,
-    transformData: false,
-    loadData: false,
-    trainModel: false,
   });
-  const [data, setData] = React.useState(null);
 
   const handleClick = (val) => {
     setShow((prev) => {
@@ -57,27 +56,17 @@ function Pipes() {
         <Button variant="contained" onClick={() => handleClick("eda")}>
           EDA
         </Button>
-        <Button variant="contained" onClick={() => handleClick("socket")}>
-          Get Data
-        </Button>
-        <Button variant="contained" onClick={() => handleClick("socket")}>
-          Transform Data
-        </Button>
-        <Button variant="contained" onClick={() => handleClick("socket")}>
-          Load Data
-        </Button>
-        <Button variant="contained" onClick={() => handleClick("socket")}>
-          Train Model
+        <Button variant="contained" onClick={() => handleClick("modelInfo")}>
+          Model Info
         </Button>
         <Button variant="contained" onClick={() => handleClick("socket")}>
           Use
         </Button>
       </Toolbar>
       <div className="MLPipes">
-        {show.socket && <Socket />}
-        {show.eda && (
-          <ApiOnClick endpoint={"model/EDA"} data={data} setData={setData} />
-        )}
+        {show.socket && <VideoTest />}
+        {show.eda && <EDA_pipes />}
+        {show.modelInfo && <Flow />}
       </div>
     </>
   );
