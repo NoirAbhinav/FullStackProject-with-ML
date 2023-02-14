@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import ResponsiveSideBar from "./components/SideIcon/SideIcon";
 import ResponsiveTopBar from "./components/TopBar/TopBar";
-import FingerprintProvider from "./components/pipes/fingerContext";
+import FingerprintProvider from "./components/fingerContext";
 
 function App() {
   return (

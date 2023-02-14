@@ -5,11 +5,12 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import "./TopBar.css";
-import Pipes from "../pipes/Pipes";
+import EmotionDetect from "../EmotionPipelines/Pipes";
+import Demo from "../Demo/demo";
 
 const buttonStyles = { color: "white", "&:hover": { color: "red" } };
 export default function ResponsiveTopBar() {
-  const [socket, setSocket] = React.useState(false);
+  const [demo, setDemo] = React.useState(false);
   return (
     <>
       <div className="topbar">
@@ -52,7 +53,7 @@ export default function ResponsiveTopBar() {
                 Skillset
               </Typography>
             </IconButton> */}
-              <IconButton sx={buttonStyles} onClick={() => setSocket(!socket)}>
+              <IconButton sx={buttonStyles} onClick={() => setDemo(!demo)}>
                 <Typography variant="h6" component="div">
                   Live Demo
                 </Typography>
@@ -61,7 +62,7 @@ export default function ResponsiveTopBar() {
           </Box>
         </AppBar>
       </div>
-      <div>{socket && <Pipes />}</div>
+      <div>{demo && <Demo />}</div>
     </>
   );
 }
