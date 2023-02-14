@@ -1,0 +1,14 @@
+version: '3'
+services:
+  frontend:
+    volumes:
+      - ./react-vite-stack:/frontend
+    build: 
+      context: ./react-vite-stack
+    network_mode: host
+  backend:
+    build: 
+      context: ./Backend
+    volumes:
+      - ./Backend:/backend
+    network_mode: host
