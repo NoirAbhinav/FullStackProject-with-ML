@@ -2,8 +2,11 @@ import React, { Children, createContext } from "react";
 
 export const FingerPrintContext = createContext({
   fingerPrint: "",
+  deviceType: "",
   setFingerprint: () => {},
   getFingerprint: () => {},
+  setDevicetype: () => {},
+  getDeviceType: () => {},
 });
 
 const FingerprintProvider = ({ children }) => {

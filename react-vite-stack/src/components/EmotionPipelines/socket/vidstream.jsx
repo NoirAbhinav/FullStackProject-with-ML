@@ -56,7 +56,7 @@ function MyWebcam({ socket, intervalRef }) {
   );
 }
 function Socket() {
-  const socket = React.useRef(new WebSocket("ws://localhost:8000/ws"));
+  const socket = React.useRef(new WebSocket("ws://localhost:8000/emotionws"));
   const intervalRef = useRef(null);
   const closeRef = useRef(false);
   const stopCapture = () => {

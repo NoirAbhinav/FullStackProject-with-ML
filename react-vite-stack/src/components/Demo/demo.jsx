@@ -3,6 +3,7 @@ import { Button, Toolbar, Typography } from "@mui/material";
 import ApiOnClick from "../apiCalls";
 import Pipes_handtrack from "../handTrack/Pipes";
 import Pipes_emotion from "../EmotionPipelines/Pipes";
+import Pipes_covmask from "../CovidMask/Pipes";
 import FingerprintProvider, { FingerPrintContext } from "../fingerContext";
 function Demo() {
   const fingerContext = useContext(FingerPrintContext);
@@ -31,10 +32,12 @@ function Demo() {
   const [show, setShow] = React.useState({
     emotionPipes: false,
     handMotionDetect: false,
+    covidMask: false,
   });
   const [label, setLabel] = React.useState({
     emotionPipes: true,
     handMotionDetect: true,
+    covidMask: true,
   });
 
   const handleClick = (val) => {
@@ -116,10 +119,31 @@ function Demo() {
             </Typography>
           </Button>
         )}
+        {label.covidMask && (
+          <Button
+            variant="contained"
+            onClick={() => {
+              handleClick("covidMask");
+              handleLabel("covidMask");
+            }}
+            sx={{ textAlign: "center" }}
+          >
+            <Typography variant="button">
+              Covid Mask Detection
+              {new Set(Object.values(label)).size !== 1 && (
+                <>
+                  <br />
+                  (Tap again to Return)
+                </>
+              )}
+            </Typography>
+          </Button>
+        )}
       </Toolbar>
       <div className="MLPipes">
         {show.emotionPipes && <Pipes_emotion />}
         {show.handMotionDetect && <Pipes_handtrack />}
+        {show.covidMask && <Pipes_covmask />}
       </div>
     </div>
   );
