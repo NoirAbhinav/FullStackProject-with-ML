@@ -14,19 +14,19 @@ import base64
 
 prototxtPath = os.path.sep.join(
     [
-        "MLOPS/covid_mask/Face",
+        "MLOPS/covidMask/Face",
         "deploy.prototxt",
     ]
 )
 weightsPath = os.path.sep.join(
     [
-        "MLOPS/covid_mask/Face",
+        "MLOPS/covidMask/Face",
         "res10_300x300_ssd_iter_140000.caffemodel",
     ]
 )
 
 faceNet = cv2.dnn.readNet(prototxtPath, weightsPath)
-maskNet = load_model("MLOPS/covid_mask/Model")
+maskNet = load_model("MLOPS/covidMask/Model")
 
 
 def stringToImage(base64_string):

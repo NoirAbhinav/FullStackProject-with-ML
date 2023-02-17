@@ -10,7 +10,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 face_cascade = cv2.CascadeClassifier(
     cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
 )
-model = load_model("MLOPS/emotion_detect/models/model_v1.h5")
+model = load_model("MLOPS/emotionDetect/models/model_v1.h5")
 
 
 def stringToImage(base64_string):

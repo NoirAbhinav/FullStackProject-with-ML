@@ -1,17 +1,11 @@
 import uvicorn
+from MLOPS import emotionPipeline as emotion_pipes
 from fastapi import FastAPI, WebSocket
 import uvicorn
-import cv2
-import base64
-import time
-import numpy as np
 from pydantic import BaseModel
-from MLOPS import emotionPipeline as emotion_pipes
 from socketCalls import Emotion
 from socketCalls import HandTrack
-
 from fastapi.middleware.cors import CORSMiddleware
-from PIL import Image
 import io
 from MLOPS import covidmaskPipeline as cvmask_pipes
 
@@ -66,11 +60,6 @@ async def EDA(data: recvData):
         states["eda"]["users"].append(data.user_id)
         # print(ret_val[4:7])
         return ret_val
-
-
-def stringToImage(base64_string):
-    imgdata = base64.b64decode(base64_string)
-    return Image.open(io.BytesIO(imgdata))
 
 
 @app.post("/model/modelInfo")
